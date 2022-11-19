@@ -1,4 +1,5 @@
 let field   =   document.querySelectorAll('.square')
+let board   =   document.getElementById('board')
 let header  =   document.getElementById('head')
 let footer  =   document.getElementById('foot')
 let whoseTurn   =   document.getElementById('whose_turn')
@@ -14,19 +15,21 @@ const playerFactory   =   (name,instrument)  => {
     return {name,instrument}
 }
 
-
+let player1 =   playerFactory(player1Input.value,'X');
+let player2 =   playerFactory(player2Input.value,'O');
 
 const startButton   =   document.getElementById('start_button');
 startButton.addEventListener('click',writeInput)
 
 function writeInput() {
-    let player1 =   playerFactory(player1Input.value,'X');
-    let player2 =   playerFactory(player2Input.value,'O');
+    player1 =   playerFactory(player1Input.value,'X');
+    player2 =   playerFactory(player2Input.value,'O');
     // initial state
     let currentPlayer   =   player1;
     let previousPlayer  =   player2;
     header.style.display    =   'none';
     footer.style.display    =   'grid';
+    board.style.display     =   'grid';
     whoseTurn.innerText     =   currentPlayer.name+"'s turn";
     for (const fld of field) {
         fld.addEventListener('click',function(event) {
@@ -50,6 +53,13 @@ function writeInput() {
                 previousPlayer  =   player2;
                 whoseTurn.innerText     =   currentPlayer.name+"'s turn";
                 checkForWinner()
+            } if (checkForWinner()==1) {
+                whoseTurn.style.display =   'none'
+                winnerAnnouncement.innerText    =   player1.name +' won!'
+            } else if (checkForWinner()==2) {
+                whoseTurn.style.display =   'none'
+                winnerAnnouncement.innerText    =   player2.name +' won!'
+                
             }
         })
     }
@@ -75,17 +85,32 @@ function checkForWinner() {
     if ((row1== winResultX) || (row2== winResultX)||(row3== winResultX)||
         (column1== winResultX)||(column2== winResultX)||(column3== winResultX)||
         (diagonalLeftToRight== winResultX)||(diagonalRightToLeft==winResultX)) {
-            winnerAnnouncement.innerText    =   player1.name+' won!'
-            whoseTurn.style.display =   'none'
+            return 1
     } else if ((row1==winResultO)||(row2==winResultO)||(row3==winResultO)||
         (column1==winResultO)||column2==winResultO||column3==winResultO||
         diagonalLeftToRight==winResultO||diagonalRightToLeft==winResultO ) {
-            whoseTurn.style.display =   'none'
-            winnerAnnouncement.innerText    =   player2.name+' won!'
+            return 2;
         }
-     else {
-        console.log('nothing happens')
+}
+
+
+    // restarts the game
+let restartButton   =   document.getElementById('restart_button')
+restartButton.addEventListener('click',restart)
+function restart() {
+    gameboard=[];
+    footer.style.display    =   'none';
+    board.style.display     =   'none';
+    header.style.display    =   'grid';
+    whoseTurn.style.display =   'block';
+    winnerAnnouncement.innerText    =   '';
+    for (const fld of field) {
+        while (fld.firstChild) {
+            fld.firstChild.remove()
+        }
     }
+    player1 =   {}
+    player2 =   {}
 }
 
 
