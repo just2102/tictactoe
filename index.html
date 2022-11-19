@@ -9,10 +9,14 @@
     <script src="./script.js" defer></script>
 </head>
 <body>
-    <label for="player1">Player 1:</label>
-    <input type="text" id="player1" name="player1">
-    <label for="player2">Player 2:</label>
-    <input type="text" id="player2" name="player2">
+    <header id="head">
+        <label for="player1">Player 1: ('X')</label>
+        <input type="text" id="player1" name="player1">
+        <label for="player2">Player 2: ('O')</label>
+        <input type="text" id="player2" name="player2">
+        <button type="button" id="start_button">Start game</button>
+    </header>
+
 
     <div class="board">
         <div class="square" id="1"></div>
@@ -25,5 +29,10 @@
         <div class="square" id="8"></div>
         <div class="square" id="9"></div>
     </div>
+
+    <footer id="foot">
+        <div id="whose_turn"></div>
+        <div id="winner_announcement"></div>
+    </footer>
 </body>
 </html>

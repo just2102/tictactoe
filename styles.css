@@ -1,19 +1,31 @@
 * {
     margin:0;
 }
+/* HEADER */
+header {
+    display:grid;
+    grid-template-rows:repeat((3,1fr));
+    justify-items: center;
+}
+
+
+
 .board {
-    position:static;
     display:grid;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: repeat(3,1fr);
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    justify-items: center;
+    height:500px;
 }
 .square {
     border:solid 2px;
-    width:200px;
-    height:200px;
     background: rgb(145, 23, 47);
+    min-height: 0;
+    height:100%;
+    min-width:0;
+    width:100%;
 }
 .cross {
     width:100%;
@@ -22,4 +34,11 @@
 .circle {
     width:100%;
     height:100%;
+}
+
+
+/* FOOTER */
+#foot {
+    display:none;
+    background: orange;
 }

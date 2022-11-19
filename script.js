@@ -1,24 +1,33 @@
 let field   =   document.querySelectorAll('.square')
+let header  =   document.getElementById('head')
+let footer  =   document.getElementById('foot')
+let whoseTurn   =   document.getElementById('whose_turn')
+let player1Input    =   document.getElementById('player1')
+let player2Input    =   document.getElementById('player2')
+let winnerAnnouncement  =   document.getElementById('winner_announcement')
+
+
 
 let gameboard   =   [];
 
 const playerFactory   =   (name,instrument)  => {
     return {name,instrument}
 }
-const cross =   document.createElement("img");
-cross.setAttribute('class','cross')
-cross.src   =   "img/cross-svgrepo-com.svg"
 
 
-let player1 =   playerFactory('jim','X');
-let player2 =   playerFactory('jeff','O');
-let currentPlayer   =   player1;
-let previousPlayer  =   player2;
 
-function writeInput() {                
+const startButton   =   document.getElementById('start_button');
+startButton.addEventListener('click',writeInput)
 
-
-   
+function writeInput() {
+    let player1 =   playerFactory(player1Input.value,'X');
+    let player2 =   playerFactory(player2Input.value,'O');
+    // initial state
+    let currentPlayer   =   player1;
+    let previousPlayer  =   player2;
+    header.style.display    =   'none';
+    footer.style.display    =   'grid';
+    whoseTurn.innerText     =   currentPlayer.name+"'s turn";
     for (const fld of field) {
         fld.addEventListener('click',function(event) {
             gameboard[fld.id-1]=currentPlayer.instrument;
@@ -29,6 +38,7 @@ function writeInput() {
                 fld.appendChild(cross)
                 currentPlayer   =   player2;
                 previousPlayer  =   player1;
+                whoseTurn.innerText     =   currentPlayer.name+"'s turn";
                 checkForWinner()
             } else if (currentPlayer==player2 && fld.firstChild == null) { 
                 const circle =  document.createElement("img");
@@ -38,6 +48,7 @@ function writeInput() {
                 fld.firstChild  =   circle
                 currentPlayer   =   player1;
                 previousPlayer  =   player2;
+                whoseTurn.innerText     =   currentPlayer.name+"'s turn";
                 checkForWinner()
             }
         })
@@ -64,11 +75,13 @@ function checkForWinner() {
     if ((row1== winResultX) || (row2== winResultX)||(row3== winResultX)||
         (column1== winResultX)||(column2== winResultX)||(column3== winResultX)||
         (diagonalLeftToRight== winResultX)||(diagonalRightToLeft==winResultX)) {
-            console.log('x won')
+            winnerAnnouncement.innerText    =   player1.name+' won!'
+            whoseTurn.style.display =   'none'
     } else if ((row1==winResultO)||(row2==winResultO)||(row3==winResultO)||
         (column1==winResultO)||column2==winResultO||column3==winResultO||
         diagonalLeftToRight==winResultO||diagonalRightToLeft==winResultO ) {
-            console.log('o won!')
+            whoseTurn.style.display =   'none'
+            winnerAnnouncement.innerText    =   player2.name+' won!'
         }
      else {
         console.log('nothing happens')
